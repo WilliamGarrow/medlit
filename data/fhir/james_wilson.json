@@ -1,0 +1,123 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-james-wilson",
+        "name": [{"given": ["James"], "family": "Wilson"}],
+        "gender": "male",
+        "birthDate": "1954-07-22"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-hyperlipidemia",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "55822004",
+            "display": "Hyperlipidemia"
+          }]
+        },
+        "onsetDateTime": "2015-06-01"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-ckd",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "431855005",
+            "display": "Chronic kidney disease stage 3"
+          }]
+        },
+        "onsetDateTime": "2020-11-15"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-atorvastatin",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "259255",
+            "display": "Atorvastatin 40 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily at bedtime"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-losartan",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "979480",
+            "display": "Losartan potassium 50 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-egfr",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "33914-3",
+            "display": "Glomerular filtration rate/1.73 sq M.predicted"
+          }]
+        },
+        "effectiveDateTime": "2026-01-20",
+        "valueQuantity": {
+          "value": 45,
+          "unit": "mL/min/1.73m2",
+          "system": "http://unitsofmeasure.org",
+          "code": "mL/min/{1.73_m2}"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-ldl",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-james-wilson"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "2089-1",
+            "display": "Low density lipoprotein cholesterol"
+          }]
+        },
+        "effectiveDateTime": "2026-01-20",
+        "valueQuantity": {
+          "value": 118,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        }
+      }
+    }
+  ]
+}

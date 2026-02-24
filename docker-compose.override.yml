@@ -1,0 +1,26 @@
+# Dev overrides: hot reload, direct port access, auth disabled
+services:
+  frontend:
+    build:
+      context: ./frontend
+      target: deps
+    command: npx next dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://backend:8000
+
+  backend:
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend/app:/app/app
+      - ./data:/app/data:ro
+    ports:
+      - "8000:8000"
+    environment:
+      - AUTH_DISABLED=true
+      - LOG_LEVEL=debug

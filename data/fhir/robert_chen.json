@@ -1,0 +1,177 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-robert-chen",
+        "name": [{"given": ["Robert"], "family": "Chen"}],
+        "gender": "male",
+        "birthDate": "1968-01-28"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-diabetes",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "44054006",
+            "display": "Type 2 diabetes mellitus"
+          }]
+        },
+        "onsetDateTime": "2017-05-10"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-cad",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "53741008",
+            "display": "Coronary heart disease"
+          }]
+        },
+        "onsetDateTime": "2022-09-01"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-obesity",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "162864005",
+            "display": "Body mass index 30+ - Loss of obesity"
+          }]
+        },
+        "onsetDateTime": "2015-01-01"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-metformin",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "861007",
+            "display": "Metformin hydrochloride 1000 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth twice daily with meals"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-aspirin",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "243670",
+            "display": "Aspirin 81 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-atorvastatin",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "259255",
+            "display": "Atorvastatin 40 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily at bedtime"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-a1c",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "4548-4",
+            "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+          }]
+        },
+        "effectiveDateTime": "2026-02-05",
+        "valueQuantity": {
+          "value": 8.1,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-cholesterol",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "2093-3",
+            "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+          }]
+        },
+        "effectiveDateTime": "2026-02-05",
+        "valueQuantity": {
+          "value": 242,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-glucose",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "2345-7",
+            "display": "Glucose [Mass/volume] in Serum or Plasma"
+          }]
+        },
+        "effectiveDateTime": "2026-02-05",
+        "valueQuantity": {
+          "value": 186,
+          "unit": "mg/dL",
+          "system": "http://unitsofmeasure.org",
+          "code": "mg/dL"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-sarah-johnson",
+        "name": [{"given": ["Sarah"], "family": "Johnson"}],
+        "gender": "female",
+        "birthDate": "1981-09-03"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-asthma",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "195967001",
+            "display": "Asthma"
+          }]
+        },
+        "onsetDateTime": "1995-04-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-anxiety",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "197480006",
+            "display": "Anxiety disorder"
+          }]
+        },
+        "onsetDateTime": "2019-08-12"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-albuterol",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "245314",
+            "display": "Albuterol 0.83 MG/ML Inhalation Solution"
+          }]
+        },
+        "dosageInstruction": [{"text": "Inhale 1-2 puffs every 4-6 hours as needed"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-fluticasone",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "895994",
+            "display": "Fluticasone propionate 0.05 MG/ACTUAT Metered Dose Inhaler"
+          }]
+        },
+        "dosageInstruction": [{"text": "Inhale 2 puffs twice daily for maintenance"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-sertraline",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "312938",
+            "display": "Sertraline 50 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily in the morning"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-peak-flow",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-sarah-johnson"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "19935-6",
+            "display": "Maximum expiratory gas flow Respiratory system airway by Peak flow meter"
+          }]
+        },
+        "effectiveDateTime": "2026-02-01",
+        "valueQuantity": {
+          "value": 420,
+          "unit": "L/min",
+          "system": "http://unitsofmeasure.org",
+          "code": "L/min"
+        }
+      }
+    }
+  ]
+}
