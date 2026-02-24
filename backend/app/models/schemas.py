@@ -60,3 +60,25 @@ class PatientDetail(BaseModel):
     conditions: list[ConditionDetail]
     medications: list[MedicationDetail]
     observations: list[ObservationDetail]
+
+
+class MedlinePlusSource(BaseModel):
+    title: str
+    url: str
+
+
+class ReadabilityScores(BaseModel):
+    flesch_kincaid_grade: float
+    gunning_fog: float
+
+
+class ExplanationResponse(BaseModel):
+    medication: str
+    reading_level: str
+    explanation: str
+    readability: ReadabilityScores
+    sources: list[MedlinePlusSource]
+    disclaimer: str = (
+        "This explanation is for educational purposes only and does not "
+        "constitute medical advice. Always consult your healthcare provider."
+    )
