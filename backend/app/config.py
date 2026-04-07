@@ -16,6 +16,7 @@ class Settings(BaseSettings):
 
     # Auth
     auth_disabled: bool = True
+    session_secret: str = "medlit-dev-secret-change-in-prod"
 
     # Server
     backend_port: int = 8000

@@ -49,6 +49,7 @@ class PatientSummary(BaseModel):
     condition_count: int
     medication_count: int
     observation_count: int
+    source: str = "local"
 
 
 class PatientDetail(BaseModel):
@@ -60,6 +61,7 @@ class PatientDetail(BaseModel):
     conditions: list[ConditionDetail]
     medications: list[MedicationDetail]
     observations: list[ObservationDetail]
+    source: str = "local"
 
 
 class MedlinePlusSource(BaseModel):
@@ -72,12 +74,19 @@ class ReadabilityScores(BaseModel):
     gunning_fog: float
 
 
+class SummarySection(BaseModel):
+    heading: str
+    icon: str = ""
+    body: str
+
+
 class ExplanationResponse(BaseModel):
-    medication: str
+    subject: str
     reading_level: str
     explanation: str
     readability: ReadabilityScores
     sources: list[MedlinePlusSource]
+    sections: list[SummarySection] | None = None
     disclaimer: str = (
         "This explanation is for educational purposes only and does not "
         "constitute medical advice. Always consult your healthcare provider."

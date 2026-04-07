@@ -45,6 +45,7 @@ class FHIRParser:
                         condition_count=len(detail.conditions),
                         medication_count=len(detail.medications),
                         observation_count=len(detail.observations),
+                        source=detail.source,
                     )
                 )
             except Exception:
@@ -64,6 +65,14 @@ class FHIRParser:
     def _parse_bundle(self, path: Path) -> PatientDetail | None:
         raw = json.loads(path.read_text())
         bundle = Bundle.parse_obj(raw)
+
+        # Detect medlit source tag (injected by fetch_hapi_patients.py)
+        source = "local"
+        if bundle.meta and bundle.meta.tag:
+            for tag in bundle.meta.tag:
+                if str(tag.system) == "medlit" and tag.code == "hapi-fhir":
+                    source = "hapi-fhir"
+                    break
 
         patient_id = path.stem
         name = gender = birth_date = None
@@ -103,6 +112,7 @@ class FHIRParser:
             conditions=conditions,
             medications=medications,
             observations=observations,
+            source=source,
         )
 
     @staticmethod
@@ -198,6 +208,8 @@ def _first_coding(codeable_concept) -> dict | None:
     if not codings:
         return None
     c = codings[0]
+    if not c.code:
+        return None
     system_raw = str(c.system) if c.system else ""
     if "snomed" in system_raw:
         label = "SNOMED CT"

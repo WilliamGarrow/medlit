@@ -1,0 +1,119 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-aisha-martinez",
+        "name": [{"given": ["Aisha"], "family": "Martinez"}],
+        "gender": "female",
+        "birthDate": "1993-07-25"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-pregnancy",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "72892002",
+            "display": "Normal pregnancy"
+          }]
+        },
+        "onsetDateTime": "2025-09-10"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-gestational-diabetes",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "11687002",
+            "display": "Gestational diabetes mellitus"
+          }]
+        },
+        "onsetDateTime": "2025-12-01"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-prenatal-vitamins",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "433795",
+            "display": "Prenatal Vitamins Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-insulin-lispro",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "311036",
+            "display": "Insulin Lispro 100 UNT/ML Injectable Solution"
+          }]
+        },
+        "dosageInstruction": [{"text": "Inject subcutaneously before meals as directed"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-a1c",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "4548-4",
+            "display": "Hemoglobin A1c/Hemoglobin.total in Blood"
+          }]
+        },
+        "valueQuantity": {
+          "value": 5.9,
+          "unit": "%"
+        },
+        "effectiveDateTime": "2026-01-10"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-glucose-tolerance",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-aisha-martinez"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "20436-2",
+            "display": "Glucose tolerance 2 hours gestational panel"
+          }]
+        },
+        "valueQuantity": {
+          "value": 162,
+          "unit": "mg/dL"
+        },
+        "effectiveDateTime": "2025-12-05"
+      }
+    }
+  ]
+}

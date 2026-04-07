@@ -1,0 +1,16 @@
+[
+  {
+    "patient_id": "maria_garcia",
+    "patient_name": "Maria Garcia",
+    "prompt_type": "summary",
+    "subject": "Health Summary",
+    "reading_level": "simple",
+    "provider": "Groq Llama 3.1 8B",
+    "model": "llama-3.1-8b-instant",
+    "explanation": "Hi Maria, let's talk about your health. I know it can be a bit overwhelming, but we'll get through it together. You have two health conditions: Type 2 diabetes and high blood pressure. These conditions are connected in a way. Type 2 diabetes is when your body doesn't use insulin, a hormone that helps your body turn food into energy, properly. This means the glucose from the food you eat stays in your blood instead of going into your cells. High blood pressure is when the force of your blood pushing against the walls of your arteries is too strong. This can damage your blood vessels over time, which can make it harder for your body to use the insulin it needs to manage the glucose in your blood.\n\nBoth conditions are affecting your body in similar ways, making it harder for your body to work properly. Now, let's talk about the medications you're taking. You're taking Metformin to help control the amount of glucose in your blood. It works by helping your body use the insulin it makes better and preventing your liver from making extra glucose. Your doctor likely prescribed this medication to help manage your Type 2 diabetes. Your other medication, Lisinopril, is an ACE inhibitor that lowers your blood pressure by helping your blood vessels relax. This makes it easier for your heart to pump blood through your body. Your doctor prescribed this medication to help control your high blood pressure. Your recent lab results show that your Hemoglobin A1c, or HbA1c, is 7.2 %. This is a measure of how well your body is controlling the glucose in your blood over a period of time. A healthy level is usually under 5.7%. Your current HbA1c level is close to the normal range, which is great.\n\nIt's essential to keep in mind that managing both conditions is a long-term process. To do this effectively, it's crucial to stick to your medication routine, keep a healthy diet, and exercise regularly. This will help you control your blood sugar levels and blood pressure, and prevent further damage to your blood vessels.\n\nOne practical thing to keep in mind is to work with your doctor to adjust your diet and exercise plan regularly. This will help you manage your glucose levels and blood pressure effectively. Additionally, be sure to ask your doctor any questions you may have about your medications or your health in general, so you can make informed decisions about your care.",
+    "flesch_kincaid": 8.2,
+    "gunning_fog": 10.5,
+    "latency_s": 1.21,
+    "char_count": 2389
+  }
+]

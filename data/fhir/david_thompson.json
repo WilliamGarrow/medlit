@@ -1,0 +1,151 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-david-thompson",
+        "name": [{"given": ["David"], "family": "Thompson"}],
+        "gender": "male",
+        "birthDate": "1947-04-08"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-copd",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "13645005",
+            "display": "Chronic obstructive pulmonary disease"
+          }]
+        },
+        "onsetDateTime": "2010-02-15"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-chf",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "42343007",
+            "display": "Congestive heart failure"
+          }]
+        },
+        "onsetDateTime": "2018-09-03"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-hypertension",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "59621000",
+            "display": "Essential hypertension"
+          }]
+        },
+        "onsetDateTime": "2005-07-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-tiotropium",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "1116634",
+            "display": "Tiotropium 18 MCG Inhalation Capsule"
+          }]
+        },
+        "dosageInstruction": [{"text": "Inhale 1 capsule once daily using HandiHaler device"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-furosemide",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "310429",
+            "display": "Furosemide 40 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily in the morning"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-carvedilol",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "200031",
+            "display": "Carvedilol 12.5 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth twice daily with food"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-bnp",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "30934-4",
+            "display": "B-type natriuretic peptide [Mass/volume] in Serum or Plasma"
+          }]
+        },
+        "valueQuantity": {
+          "value": 450,
+          "unit": "pg/mL"
+        },
+        "effectiveDateTime": "2025-12-01"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-fev1",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-david-thompson"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "20150-9",
+            "display": "FEV1"
+          }]
+        },
+        "valueQuantity": {
+          "value": 1.2,
+          "unit": "L"
+        },
+        "effectiveDateTime": "2025-10-18"
+      }
+    }
+  ]
+}

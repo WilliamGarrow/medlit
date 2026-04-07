@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Protocol
 
@@ -80,15 +81,26 @@ class GroqProvider:
             "messages": [{"role": "user", "content": prompt}],
         }
 
-        try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                resp = await client.post(url, json=payload, headers=headers)
-        except httpx.ConnectError:
-            logger.error("Cannot connect to Groq API")
-            raise RuntimeError("LLM service is unavailable")
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                async with httpx.AsyncClient(timeout=30.0) as client:
+                    resp = await client.post(url, json=payload, headers=headers)
+            except httpx.ConnectError:
+                logger.error("Cannot connect to Groq API")
+                raise RuntimeError("LLM service is unavailable")
+
+            if resp.status_code == 429 and attempt < max_retries - 1:
+                wait = int(resp.headers.get("retry-after", "8"))
+                logger.warning("Groq rate limited, retrying in %ds", wait)
+                await asyncio.sleep(wait)
+                continue
+
+            resp.raise_for_status()
+            return resp.json()["choices"][0]["message"]["content"]
 
         resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+        return ""  # unreachable, satisfies type checker
 
 
 def get_llm_provider() -> LLMProvider:

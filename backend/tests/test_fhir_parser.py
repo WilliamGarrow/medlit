@@ -12,7 +12,7 @@ def parser():
 
 def test_list_patients_returns_all(parser):
     patients = parser.list_patients()
-    assert len(patients) == 4
+    assert len(patients) == 10
 
 
 def test_list_patients_fields(parser):
@@ -75,3 +75,14 @@ def test_robert_chen_complex_patient(parser):
     assert len(detail.conditions) == 3
     assert len(detail.medications) == 3
     assert len(detail.observations) == 3
+
+
+def test_local_patient_source(parser):
+    detail = parser.get_patient("maria_garcia")
+    assert detail.source == "local"
+
+
+def test_hapi_patient_source(parser):
+    detail = parser.get_patient("hapi_robert_chen")
+    assert detail is not None
+    assert detail.source == "hapi-fhir"

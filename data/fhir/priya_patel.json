@@ -1,0 +1,99 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "synthea-priya-patel",
+        "name": [{"given": ["Priya"], "family": "Patel"}],
+        "gender": "female",
+        "birthDate": "1999-01-14"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-depression",
+        "subject": {"reference": "Patient/synthea-priya-patel"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "370143000",
+            "display": "Major depressive disorder"
+          }]
+        },
+        "onsetDateTime": "2021-06-10"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-migraine",
+        "subject": {"reference": "Patient/synthea-priya-patel"},
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "37796009",
+            "display": "Migraine"
+          }]
+        },
+        "onsetDateTime": "2022-03-22"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-escitalopram",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-priya-patel"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "351249",
+            "display": "Escitalopram 10 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "MedicationRequest",
+        "id": "med-sumatriptan",
+        "status": "active",
+        "intent": "order",
+        "subject": {"reference": "Patient/synthea-priya-patel"},
+        "medicationCodeableConcept": {
+          "coding": [{
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "313150",
+            "display": "Sumatriptan 50 MG Oral Tablet"
+          }]
+        },
+        "dosageInstruction": [{"text": "Take 1 tablet at onset of migraine; may repeat after 2 hours if needed"}]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-phq9",
+        "status": "final",
+        "subject": {"reference": "Patient/synthea-priya-patel"},
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "44261-6",
+            "display": "Patient Health Questionnaire 9 item (PHQ-9) total score"
+          }]
+        },
+        "valueQuantity": {
+          "value": 12,
+          "unit": "{score}"
+        },
+        "effectiveDateTime": "2025-11-15"
+      }
+    }
+  ]
+}

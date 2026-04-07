@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MedLit — Patient Health Literacy",
+  title: "MedLit | Patient Health Literacy",
   description:
     "Plain-language explanations of your health record, powered by FHIR + MedlinePlus + LLM",
 };
@@ -17,7 +17,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.className} min-h-screen bg-brand-surface text-gray-900`}>
+        {children}
+      </body>
     </html>
   );
 }

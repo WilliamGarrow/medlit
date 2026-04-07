@@ -13,24 +13,26 @@ async def health_check(settings: Settings = Depends(get_settings)):
     parser = FHIRParser(settings.fhir_data_path)
     patient_count = len(parser.list_patients())
 
-    fhir_status = "loaded" if patient_count > 0 else "no data"
+    fhir_status = "Loaded" if patient_count > 0 else "No Data"
 
-    ollama_status = "not configured"
+    llm_status = "Not Configured"
     if settings.llm_provider == "ollama":
         try:
             async with httpx.AsyncClient(timeout=3.0) as client:
                 resp = await client.get(f"{settings.ollama_base_url}/api/tags")
-                ollama_status = "connected" if resp.status_code == 200 else "error"
+                llm_status = "Connected (Ollama)" if resp.status_code == 200 else "Error"
         except httpx.ConnectError:
-            ollama_status = "unreachable"
+            llm_status = "Unreachable"
+    elif settings.llm_provider == "groq":
+        llm_status = "Connected (Groq)"
     elif settings.llm_provider == "stub":
-        ollama_status = "stub mode"
+        llm_status = "Stub Mode"
 
     status = HealthStatus(
-        status="healthy",
+        status="Healthy",
         fhir_data=fhir_status,
         fhir_patients=patient_count,
-        ollama=ollama_status,
+        ollama=llm_status,
     )
 
     return APIResponse(success=True, data=status.model_dump())
