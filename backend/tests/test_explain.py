@@ -114,7 +114,7 @@ def test_explain_medication_200(client):
     body = resp.json()
     assert body["success"] is True
     data = body["data"]
-    assert "Metformin" in data["medication"]
+    assert "Metformin" in data["subject"]
     assert data["reading_level"] == "standard"
 
 

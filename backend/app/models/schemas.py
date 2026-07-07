@@ -29,6 +29,7 @@ class MedicationDetail(BaseModel):
     system: str
     status: str | None = None
     dosage: str | None = None
+    brand_names: list[str] = []
 
 
 class ObservationDetail(BaseModel):

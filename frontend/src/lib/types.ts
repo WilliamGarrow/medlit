@@ -31,6 +31,7 @@ export interface MedicationDetail {
   system: string;
   status: string | null;
   dosage: string | null;
+  brand_names?: string[];
 }
 
 export interface ObservationDetail {

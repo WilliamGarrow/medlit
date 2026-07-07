@@ -26,6 +26,7 @@ from app.services.prompt_builder import (
 from app.services.cache import ExplanationCache
 from app.services.openfda_client import OpenFDAClient
 from app.services.readability import score_readability
+from app.services.rxnav_client import RxNavClient
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +35,7 @@ router = APIRouter()
 # Module-level singletons so caches persist across requests
 _medline_client = MedlinePlusClient()
 _openfda_client = OpenFDAClient()
+_rxnav_client = RxNavClient()
 _explanation_cache = ExplanationCache()
 
 
@@ -45,6 +47,10 @@ class ReadingLevel(str, enum.Enum):
 
 def _get_parser(settings: Settings = Depends(get_settings)) -> FHIRParser:
     return FHIRParser(settings.fhir_data_path)
+
+
+async def _empty_list() -> list[str]:
+    return []
 
 
 @router.get(
@@ -80,8 +86,15 @@ async def explain_medication(
 
     med = detail.medications[med_index]
 
-    # Query MedlinePlus
-    medline_results = await _medline_client.lookup(med.code, med.system)
+    # Query MedlinePlus + RxNav brand names in parallel
+    is_rxnorm = "rxnorm" in med.system.lower()
+    medline_task = _medline_client.lookup(med.code, med.system)
+    brand_task = _rxnav_client.lookup_brands(med.code) if is_rxnorm else None
+    if brand_task is not None:
+        medline_results, brand_names = await asyncio.gather(medline_task, brand_task)
+    else:
+        medline_results = await medline_task
+        brand_names = []
 
     # Build prompt
     conditions = [c.display for c in detail.conditions]
@@ -96,6 +109,7 @@ async def explain_medication(
         medication=med.display,
         medline_results=medline_results,
         reading_level=level.value,
+        brand_names=brand_names,
     )
 
     # Call LLM
@@ -162,12 +176,22 @@ async def patient_summary(
         _openfda_client.lookup_interactions(m.code, m.display)
         for m in detail.medications
     ]
+    # RxNav brand-name lookups (RxNorm-coded medications only)
+    brand_coros = [
+        _rxnav_client.lookup_brands(m.code)
+        if "rxnorm" in m.system.lower()
+        else _empty_list()
+        for m in detail.medications
+    ]
 
-    all_coros = medline_coros + fda_coros
+    all_coros = medline_coros + fda_coros + brand_coros
     all_results = await asyncio.gather(*all_coros)
 
     medline_results_list = all_results[: len(medline_coros)]
-    fda_results_list = all_results[len(medline_coros) :]
+    fda_results_list = all_results[
+        len(medline_coros) : len(medline_coros) + len(fda_coros)
+    ]
+    brand_results_list = all_results[len(medline_coros) + len(fda_coros) :]
 
     medline_by_subject: dict[str, list] = {}
     all_sources: list[MedlinePlusSource] = []
@@ -191,6 +215,12 @@ async def patient_summary(
             MedlinePlusSource(title="openFDA Drug Labels", url="https://open.fda.gov/apis/drug/label/")
         )
 
+    # Collect RxNav brand names by medication display
+    medication_brands: dict[str, list[str]] = {}
+    for med, brands in zip(detail.medications, brand_results_list):
+        if brands:
+            medication_brands[med.display] = brands
+
     # Build prompt
     conditions = [c.display for c in detail.conditions]
     medications = [m.display for m in detail.medications]
@@ -206,6 +236,7 @@ async def patient_summary(
         medline_results=medline_by_subject,
         reading_level=level.value,
         drug_interactions=drug_interactions or None,
+        medication_brands=medication_brands or None,
     )
 
     # Call LLM

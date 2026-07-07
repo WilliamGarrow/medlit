@@ -55,6 +55,7 @@ def build_medication_prompt(
     medication: str,
     medline_results: list[MedlinePlusResult],
     reading_level: str,
+    brand_names: list[str] | None = None,
 ) -> str:
     """Construct a RAG prompt for medication explanation."""
     level_instruction = READING_LEVEL_INSTRUCTIONS.get(
@@ -64,6 +65,18 @@ def build_medication_prompt(
     conditions_text = ", ".join(conditions) if conditions else "None listed"
     observations_text = "; ".join(observations) if observations else "None available"
     medline_section = _build_medline_section(medline_results)
+    # Brand names hurt readability at the Simple level (commercial names are
+    # polysyllabic and inflate FK) — reserve them for Standard/Detailed where
+    # the patient can absorb the additional recognition aid.
+    expose_brands = bool(brand_names) and reading_level != "simple"
+    medication_line = medication
+    if expose_brands:
+        medication_line = f"{medication} (commonly sold under the brand name(s): {', '.join(brand_names)})"
+    brand_instruction = (
+        ' When a brand name is provided, mention it once in plain language (e.g., "Tiotropium, sold under the brand name Spiriva, ...") so the patient recognizes the name on their pill bottle.'
+        if expose_brands
+        else ""
+    )
 
     return f"""You are a health literacy assistant helping patients understand their medications.
 
@@ -73,13 +86,13 @@ Patient context:
 - Conditions: {conditions_text}
 - Recent lab results: {observations_text}
 
-Medication to explain: {medication}
+Medication to explain: {medication_line}
 
 {medline_section}
 
 Reading level: {level_instruction}
 
-Please explain what this medication is, why it was likely prescribed given the patient's conditions, common side effects to watch for, and any important instructions. Ground your explanation in the MedlinePlus references when available.
+Please explain what this medication is, why it was likely prescribed given the patient's conditions, common side effects to watch for, and any important instructions.{brand_instruction} Ground your explanation in the MedlinePlus references when available.
 
 {NO_MARKDOWN}"""
 
@@ -130,6 +143,7 @@ def build_summary_prompt(
     medline_results: dict[str, list[MedlinePlusResult]],
     reading_level: str,
     drug_interactions: dict[str, str] | None = None,
+    medication_brands: dict[str, list[str]] | None = None,
 ) -> str:
     """Construct a RAG prompt for a holistic patient health summary.
 
@@ -138,13 +152,29 @@ def build_summary_prompt(
 
     ``drug_interactions`` maps medication display names to FDA-approved
     drug interaction text from the openFDA Drug Label API.
+
+    ``medication_brands`` maps medication display names to brand-name
+    strings (from RxNav). Used so the LLM can reference brand names the
+    patient may recognize on their pill bottle.
     """
     level_instruction = READING_LEVEL_INSTRUCTIONS.get(
         reading_level, READING_LEVEL_INSTRUCTIONS["standard"]
     )
 
     conditions_text = ", ".join(conditions) if conditions else "None listed"
-    medications_text = ", ".join(medications) if medications else "None listed"
+    # Skip brand names at the Simple level — see build_medication_prompt for rationale.
+    expose_brands = bool(medication_brands) and reading_level != "simple"
+    if expose_brands:
+        med_lines = []
+        for m in medications:
+            brands = medication_brands.get(m) or []
+            if brands:
+                med_lines.append(f"{m} (brand names: {', '.join(brands)})")
+            else:
+                med_lines.append(m)
+        medications_text = ", ".join(med_lines) if med_lines else "None listed"
+    else:
+        medications_text = ", ".join(medications) if medications else "None listed"
     observations_text = "; ".join(observations) if observations else "None available"
 
     # Build combined MedlinePlus reference section (compact to fit token limits)
