@@ -17,12 +17,8 @@ import type {
   SummarySection,
 } from "@/lib/types";
 import ReadabilityBadge from "./ReadabilityBadge";
-
-const LEVELS: { value: ReadingLevel; label: string }[] = [
-  { value: "simple", label: "Simple" },
-  { value: "standard", label: "Standard" },
-  { value: "detailed", label: "Detailed" },
-];
+import LevelToggle from "./LevelToggle";
+import SourcePanel from "./SourcePanel";
 
 const SECTION_CONFIG: Record<
   string,
@@ -118,30 +114,19 @@ export default function PatientSummary({ patientId }: { patientId: string }) {
   };
 
   return (
-    <section className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm space-y-4">
+    <section className="bg-white rounded-xl border border-brand-line p-6 shadow-sm space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <FileTextIcon size={18} className="text-gray-400" strokeWidth={1.5} />
-          <h3 className="text-lg font-semibold text-gray-800">
+          <h3 className="font-display text-xl font-semibold tracking-tight text-brand-navy">
             Your Health Summary
           </h3>
         </div>
-        <div className="flex gap-1">
-          {LEVELS.map((l) => (
-            <button
-              key={l.value}
-              onClick={() => handleLevelChange(l.value)}
-              disabled={loading}
-              className={`px-3 py-1 text-xs rounded-full border transition-colors ${
-                level === l.value
-                  ? "bg-brand-accent text-white border-brand-accent"
-                  : "bg-white text-gray-600 border-gray-300 hover:border-brand-accent"
-              } disabled:opacity-50`}
-            >
-              {l.label}
-            </button>
-          ))}
-        </div>
+        <LevelToggle
+          level={level}
+          onChange={handleLevelChange}
+          disabled={loading}
+        />
       </div>
 
       {/* Loading */}
@@ -190,25 +175,7 @@ export default function PatientSummary({ patientId }: { patientId: string }) {
             <ReadabilityBadge scores={result.readability} />
           </div>
 
-          {result.sources.length > 0 && (
-            <div>
-              <p className="text-xs font-medium text-gray-500 mb-1">Sources</p>
-              <ul className="flex flex-wrap gap-x-4 gap-y-0.5">
-                {result.sources.map((src, i) => (
-                  <li key={i}>
-                    <a
-                      href={src.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-brand-accent hover:underline"
-                    >
-                      {src.title} ↗
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <SourcePanel sources={result.sources} />
 
           <p className="text-xs text-gray-400 italic">
             {result.disclaimer}

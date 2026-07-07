@@ -6,11 +6,17 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          navy: "#1e293b",
-          accent: "#0d9488",
-          surface: "#f8fafc",
-          muted: "#f1f5f9",
+          navy: "#0F1D2A",
+          deep: "#0B1622",
+          accent: "#0E8C74",
+          bright: "#1ABC9C",
+          surface: "#FAFAF9",
+          muted: "#F2F0ED",
+          line: "#E8E6E3",
         },
+      },
+      fontFamily: {
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
     },
   },

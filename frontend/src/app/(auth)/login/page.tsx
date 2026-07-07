@@ -11,6 +11,26 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const handleDemo = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/demo", { method: "POST" });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        setError("Demo entry is unavailable right now");
+        return;
+      }
+      trackActivity("login", "demo-oneclick");
+      router.push("/");
+      router.refresh();
+    } catch {
+      setError("Unable to reach the server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -44,9 +64,11 @@ export default function LoginPage() {
       {/* Top bar */}
       <div className="bg-brand-navy">
         <div className="max-w-5xl mx-auto px-6 py-4">
-          <h1 className="text-2xl font-bold text-white">MedLit</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-white">
+            MedLit<span className="text-brand-bright">.</span>
+          </h1>
           <p className="text-sm text-slate-300">
-            Understand Your Health Records
+            Medical records, explained at your reading level
           </p>
         </div>
       </div>
@@ -71,16 +93,16 @@ export default function LoginPage() {
             <div className="space-y-3">
               {[
                 {
-                  title: "Personalized health summaries",
-                  desc: "See how your conditions, medications, and lab results connect.",
+                  title: "Grounded in sources you can check",
+                  desc: "Every explanation cites MedlinePlus, openFDA drug labels, and RxNav.",
                 },
                 {
-                  title: "Adjustable reading levels",
-                  desc: "Simple, Standard, or Detailed. You choose what works for you.",
+                  title: "A reading level you choose, then verified",
+                  desc: "Simple, Standard, or Detailed, scored on the output with Flesch-Kincaid.",
                 },
                 {
-                  title: "Grounded in real sources",
-                  desc: "Every explanation cites MedlinePlus, the NIH's trusted health resource.",
+                  title: "Lab results never touch the model",
+                  desc: "Reference ranges decide normal or abnormal deterministically.",
                 },
               ].map((item) => (
                 <div key={item.title} className="flex gap-3">
@@ -101,11 +123,26 @@ export default function LoginPage() {
           {/* Right: login card */}
           <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-lg">
             <h3 className="text-lg font-semibold text-gray-900 mb-1">
-              Sign in
+              See it working
             </h3>
-            <p className="text-sm text-gray-500 mb-6">
-              Access your patient health dashboard
+            <p className="text-sm text-gray-500 mb-5">
+              Eight synthetic patients, real clinical coding
             </p>
+
+            <button
+              type="button"
+              onClick={handleDemo}
+              disabled={loading}
+              className="w-full py-2.5 bg-brand-navy text-white font-medium rounded-lg hover:bg-brand-accent transition-colors disabled:opacity-50"
+            >
+              {loading ? "One moment..." : "Enter the demo"}
+            </button>
+
+            <div className="my-5 flex items-center gap-3">
+              <div className="h-px flex-1 bg-gray-200" />
+              <span className="text-xs text-gray-400">or sign in</span>
+              <div className="h-px flex-1 bg-gray-200" />
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -159,9 +196,21 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-6 pt-4 border-t border-gray-100">
+            <div className="mt-6 pt-4 border-t border-gray-100 space-y-2">
               <p className="text-xs text-gray-400 text-center">
-                This is a research demo. No real patient data is used.
+                Research prototype. Synthetic patients only, never real data.
+              </p>
+              <p className="text-xs text-center">
+                <a href="/about" className="text-brand-accent hover:underline">
+                  How it works
+                </a>
+                <span className="text-gray-300 mx-2">·</span>
+                <a
+                  href="https://williamgarrow.com"
+                  className="text-brand-accent hover:underline"
+                >
+                  Built by William Garrow
+                </a>
               </p>
             </div>
           </div>

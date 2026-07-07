@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     session_secret: str = "medlit-dev-secret-change-in-prod"
     admin_password: str = "changeme-admin"
     demo_password: str = "changeme-demo"
+    demo_login_enabled: bool = True
 
     # Server
     backend_port: int = 8000

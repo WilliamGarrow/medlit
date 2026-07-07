@@ -6,12 +6,8 @@ import { trackActivity } from "@/lib/tracking";
 import type { ReadingLevel, ExplanationResponse, APIResponse } from "@/lib/types";
 import ReadabilityBadge from "./ReadabilityBadge";
 import ExplanationBody from "./ExplanationBody";
-
-const LEVELS: { value: ReadingLevel; label: string }[] = [
-  { value: "simple", label: "Simple" },
-  { value: "standard", label: "Standard" },
-  { value: "detailed", label: "Detailed" },
-];
+import LevelToggle from "./LevelToggle";
+import SourcePanel from "./SourcePanel";
 
 export default function MedicationExplainer({
   patientId,
@@ -88,22 +84,7 @@ export default function MedicationExplainer({
         </button>
       </div>
 
-      <div className="flex gap-1">
-        {LEVELS.map((l) => (
-          <button
-            key={l.value}
-            onClick={() => handleLevelChange(l.value)}
-            disabled={loading}
-            className={`px-3 py-1 text-xs rounded-full border transition-colors ${
-              level === l.value
-                ? "bg-brand-accent text-white border-brand-accent"
-                : "bg-white text-gray-600 border-gray-300 hover:border-brand-accent"
-            } disabled:opacity-50`}
-          >
-            {l.label}
-          </button>
-        ))}
-      </div>
+      <LevelToggle level={level} onChange={handleLevelChange} disabled={loading} />
 
       {loading && (
         <div className="flex items-center gap-2 text-sm text-gray-500">
@@ -122,24 +103,11 @@ export default function MedicationExplainer({
       )}
 
       {result && !loading && (
-        <div className="bg-slate-50 rounded-lg p-4 space-y-3">
+        <div className="bg-brand-surface border border-brand-line rounded-lg p-4 space-y-3">
           <ExplanationBody text={result.explanation} />
-          <hr className="border-gray-200" />
+          <hr className="border-brand-line" />
           <ReadabilityBadge scores={result.readability} />
-          {result.sources.length > 0 && (
-            <div>
-              <p className="text-xs font-medium text-gray-500 mb-1">Sources</p>
-              <ul className="space-y-0.5">
-                {result.sources.map((src, i) => (
-                  <li key={i}>
-                    <a href={src.url} target="_blank" rel="noopener noreferrer" className="text-xs text-brand-accent hover:underline">
-                      {src.title} ↗
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <SourcePanel sources={result.sources} />
           <p className="text-xs text-gray-400 italic">{result.disclaimer}</p>
         </div>
       )}

@@ -14,9 +14,11 @@ export default function AboutPage() {
       <div className="bg-brand-navy">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-white">MedLit</h1>
+            <h1 className="font-display text-2xl font-semibold tracking-tight text-white">
+              MedLit<span className="text-brand-bright">.</span>
+            </h1>
             <p className="text-sm text-slate-300">
-              Understand Your Health Records
+              Medical records, explained at your reading level
             </p>
           </div>
           <Link

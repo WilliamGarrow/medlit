@@ -21,15 +21,19 @@ export default function SectionHeading({
 }) {
   const Icon = ICONS[icon];
   return (
-    <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-3">
+    <h3 className="flex items-center gap-2.5 mb-4">
       {Icon && (
-        <Icon
-          size={18}
-          className={iconColor || "text-gray-400"}
-          strokeWidth={1.5}
-        />
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white border border-brand-line shadow-sm">
+          <Icon
+            size={16}
+            className={iconColor || "text-gray-400"}
+            strokeWidth={1.75}
+          />
+        </span>
       )}
-      {children}
+      <span className="font-display text-xl font-semibold tracking-tight text-brand-navy flex items-baseline gap-2">
+        {children}
+      </span>
     </h3>
   );
 }

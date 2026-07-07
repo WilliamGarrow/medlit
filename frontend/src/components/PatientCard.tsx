@@ -7,10 +7,10 @@ export default function PatientCard({ patient }: { patient: PatientSummary }) {
   return (
     <Link
       href={`/patients/${patient.id}`}
-      className={`block bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-all border-l-4 ${
+      className={`block bg-white rounded-xl border border-brand-line p-5 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg border-l-4 ${
         isHapi
           ? "border-l-indigo-500 hover:border-indigo-300"
-          : "border-l-teal-500 hover:border-brand-accent"
+          : "border-l-brand-bright hover:border-brand-accent"
       }`}
     >
       <div className="flex items-center gap-2">

@@ -1,6 +1,7 @@
 import { getPatients } from "@/lib/api";
 import PatientSelector from "@/components/PatientSelector";
 import FeatureCallouts from "@/components/FeatureCallouts";
+import Reveal from "@/components/Reveal";
 
 export default async function Home() {
   const patients = await getPatients();
@@ -8,8 +9,8 @@ export default async function Home() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-8">
       <div className="max-w-2xl mx-auto text-center space-y-6 mt-8">
-        <h2 className="text-2xl font-bold text-gray-900">
-          Welcome to MedLit
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-brand-navy">
+          Welcome to MedLit<span className="text-brand-bright">.</span>
         </h2>
         <p className="text-gray-600 leading-relaxed">
           MedLit helps you understand your health records in plain language.
@@ -30,7 +31,9 @@ export default async function Home() {
         )}
       </div>
 
-      <FeatureCallouts />
+      <Reveal>
+        <FeatureCallouts />
+      </Reveal>
     </main>
   );
 }

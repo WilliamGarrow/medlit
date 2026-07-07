@@ -92,6 +92,37 @@ async def login(body: LoginRequest, response: Response):
     )
 
 
+@router.post("/auth/demo", response_model=APIResponse)
+async def demo_login(response: Response):
+    """One-click viewer session so booth visitors never type credentials."""
+    settings = get_settings()
+    if not settings.demo_login_enabled:
+        raise HTTPException(status_code=404, detail="Not found")
+
+    user = _get_users()["demo"]
+    payload = {
+        "sub": "demo",
+        "role": user["role"],
+        "name": user["name"],
+        "exp": int(time.time()) + SESSION_MAX_AGE,
+    }
+    token = _sign_token(payload)
+
+    response.set_cookie(
+        key="medlit_session",
+        value=token,
+        httponly=True,
+        secure=True,
+        samesite="lax",
+        max_age=SESSION_MAX_AGE,
+        path="/",
+    )
+    return APIResponse(
+        success=True,
+        data={"username": "demo", "role": user["role"], "name": user["name"]},
+    )
+
+
 @router.post("/auth/logout", response_model=APIResponse)
 async def logout(response: Response):
     response.delete_cookie("medlit_session", path="/")
