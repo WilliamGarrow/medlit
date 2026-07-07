@@ -1,8 +1,9 @@
+from pathlib import Path
 import pytest
 
 from app.services.fhir_parser import FHIRParser
 
-FHIR_DATA_PATH = "data/fhir"
+FHIR_DATA_PATH = str(Path(__file__).resolve().parents[2] / "data" / "fhir")
 
 
 @pytest.fixture()

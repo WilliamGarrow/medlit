@@ -70,3 +70,8 @@ htmlcov/
 *.log
 *.pid
 *.seed
+
+# ========================================
+# Runtime state
+# ========================================
+data/cache/activity.jsonl
