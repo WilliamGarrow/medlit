@@ -16,11 +16,14 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-# Hardcoded demo users — no database needed for a class project
-USERS = {
-    "admin": {"password": "changeme-admin", "role": "admin", "name": "Admin"},
-    "demo": {"password": "changeme-demo", "role": "viewer", "name": "Demo User"},
-}
+# Demo users — no database needed. Passwords come from env
+# (ADMIN_PASSWORD / DEMO_PASSWORD) with local-dev defaults.
+def _get_users() -> dict:
+    settings = get_settings()
+    return {
+        "admin": {"password": settings.admin_password, "role": "admin", "name": "Admin"},
+        "demo": {"password": settings.demo_password, "role": "viewer", "name": "Demo User"},
+    }
 
 SESSION_MAX_AGE = 60 * 60 * 24  # 24 hours
 
@@ -62,7 +65,7 @@ def _verify_token(token: str) -> dict | None:
 
 @router.post("/auth/login", response_model=APIResponse)
 async def login(body: LoginRequest, response: Response):
-    user = USERS.get(body.username)
+    user = _get_users().get(body.username)
     if not user or user["password"] != body.password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
