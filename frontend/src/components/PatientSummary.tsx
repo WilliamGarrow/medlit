@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { trackActivity } from "@/lib/tracking";
 import {
   HeartIcon,
   PillIcon,
@@ -106,10 +107,12 @@ export default function PatientSummary({ patientId }: { patientId: string }) {
   );
 
   useEffect(() => {
+    trackActivity("view_summary", patientId);
     fetchSummary(level);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLevelChange = (newLevel: ReadingLevel) => {
+    trackActivity("change_level", `${patientId}:summary:${newLevel}`);
     setLevel(newLevel);
     fetchSummary(newLevel);
   };

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { PatientSummary } from "@/lib/types";
+import { trackActivity } from "@/lib/tracking";
 
 export default function PatientSelector({
   patients,
@@ -13,6 +14,7 @@ export default function PatientSelector({
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const id = e.target.value;
     if (id) {
+      trackActivity("select_patient", id);
       router.push(`/patients/${id}`);
     }
   };

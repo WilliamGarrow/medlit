@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackActivity } from "@/lib/tracking";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function LoginPage() {
         return;
       }
 
+      trackActivity("login", username);
       router.push("/");
       router.refresh();
     } catch {

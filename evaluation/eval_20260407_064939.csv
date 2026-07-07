@@ -1,0 +1,13 @@
+patient_id,patient_name,prompt_type,subject,reading_level,provider,model,flesch_kincaid,gunning_fog,latency_s,char_count
+maria_garcia,Maria Garcia,summary,Health Summary,simple,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.29,87
+maria_garcia,Maria Garcia,summary,Health Summary,simple,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.16,87
+maria_garcia,Maria Garcia,summary,Health Summary,standard,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.18,87
+maria_garcia,Maria Garcia,summary,Health Summary,standard,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.16,87
+maria_garcia,Maria Garcia,summary,Health Summary,detailed,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.21,87
+maria_garcia,Maria Garcia,summary,Health Summary,detailed,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.17,87
+david_thompson,David Thompson,summary,Health Summary,simple,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.16,87
+david_thompson,David Thompson,summary,Health Summary,simple,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.22,87
+david_thompson,David Thompson,summary,Health Summary,standard,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.21,87
+david_thompson,David Thompson,summary,Health Summary,standard,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.22,87
+david_thompson,David Thompson,summary,Health Summary,detailed,Groq Llama 3.1 8B,llama-3.1-8b-instant,0,0,0.16,87
+david_thompson,David Thompson,summary,Health Summary,detailed,Groq Llama 3.1 70B,llama-3.1-70b-versatile,0,0,0.22,87

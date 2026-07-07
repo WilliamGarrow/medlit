@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { InfoIcon } from "./Icons";
+import { trackActivity } from "@/lib/tracking";
 import type { ReadingLevel, ExplanationResponse, APIResponse } from "@/lib/types";
 import ReadabilityBadge from "./ReadabilityBadge";
 import ExplanationBody from "./ExplanationBody";
@@ -50,11 +51,13 @@ export default function ConditionExplainer({
   );
 
   const handleOpen = () => {
+    trackActivity("explain_condition", `${patientId}:${conditionName}`);
     setIsOpen(true);
     fetchExplanation(level);
   };
 
   const handleLevelChange = (newLevel: ReadingLevel) => {
+    trackActivity("change_level", `${patientId}:condition:${newLevel}`);
     setLevel(newLevel);
     fetchExplanation(newLevel);
   };
@@ -63,7 +66,7 @@ export default function ConditionExplainer({
     return (
       <button
         onClick={handleOpen}
-        className="mt-2 flex items-center gap-1 text-xs text-brand-accent hover:text-teal-700 font-medium"
+        className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-brand-accent bg-teal-50 border border-teal-200 rounded-md hover:bg-teal-100 hover:border-teal-300 transition-colors"
       >
         <InfoIcon size={13} strokeWidth={2} />
         Learn more

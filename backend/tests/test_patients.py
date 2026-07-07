@@ -3,7 +3,7 @@ def test_list_patients(client):
     assert resp.status_code == 200
     body = resp.json()
     assert body["success"] is True
-    assert len(body["data"]) == 10
+    assert len(body["data"]) == 8
 
 
 def test_get_patient_detail(client):

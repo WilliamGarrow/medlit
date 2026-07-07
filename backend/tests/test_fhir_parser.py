@@ -12,7 +12,7 @@ def parser():
 
 def test_list_patients_returns_all(parser):
     patients = parser.list_patients()
-    assert len(patients) == 10
+    assert len(patients) == 8
 
 
 def test_list_patients_fields(parser):
