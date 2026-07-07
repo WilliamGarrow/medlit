@@ -54,26 +54,56 @@ export default function ReadabilityBadge({
     <div className="text-xs">
       <button
         onClick={() => setShowDetail(!showDetail)}
-        className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+        aria-expanded={showDetail}
+        className="group -mx-2 flex items-center gap-2 rounded-md px-2 py-1 transition-colors hover:bg-brand-muted"
       >
         <span className={`px-2 py-0.5 rounded-full font-medium ${color}`}>
           {label}
         </span>
-        <span className="text-gray-500">{gradeText}</span>
-        <span className="text-gray-300">{showDetail ? "▴" : "▾"}</span>
+        <span className="text-gray-500 underline decoration-dotted decoration-gray-300 underline-offset-2 group-hover:decoration-brand-accent">
+          {gradeText}
+        </span>
+        <svg
+          viewBox="0 0 12 12"
+          className={`h-3 w-3 text-gray-400 transition-transform group-hover:text-brand-accent ${
+            showDetail ? "rotate-180" : ""
+          }`}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M2.5 4.5 L6 8 L9.5 4.5" />
+        </svg>
       </button>
 
       {showDetail && (
-        <div className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-100 space-y-1.5">
+        <div className="mt-2 rounded-lg border border-brand-line bg-brand-surface p-3 space-y-2.5">
           <p className="text-gray-600">{desc}</p>
-          <div className="flex gap-4 text-gray-400">
-            <span title="Flesch-Kincaid Grade Level: maps to US school grade">
-              Flesch-Kincaid: {scores.flesch_kincaid_grade.toFixed(1)}
+          <div className="flex gap-2">
+            <span
+              title="Flesch-Kincaid Grade Level: maps to US school grade"
+              className="rounded-md border border-brand-line bg-white px-2 py-1 text-gray-600"
+            >
+              Flesch-Kincaid{" "}
+              <span className="font-mono font-medium text-brand-navy">
+                {scores.flesch_kincaid_grade.toFixed(1)}
+              </span>
             </span>
-            <span title="Gunning Fog Index: estimates years of education needed">
-              Gunning Fog: {scores.gunning_fog.toFixed(1)}
+            <span
+              title="Gunning Fog Index: estimates years of education needed"
+              className="rounded-md border border-brand-line bg-white px-2 py-1 text-gray-600"
+            >
+              Gunning Fog{" "}
+              <span className="font-mono font-medium text-brand-navy">
+                {scores.gunning_fog.toFixed(1)}
+              </span>
             </span>
           </div>
+          <p className="text-[11px] text-gray-400">
+            Scored on the generated text itself, never assumed from the prompt.
+          </p>
         </div>
       )}
     </div>

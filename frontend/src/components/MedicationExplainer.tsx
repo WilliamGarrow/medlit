@@ -62,7 +62,7 @@ export default function MedicationExplainer({
     return (
       <button
         onClick={handleOpen}
-        className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-brand-accent bg-teal-50 border border-teal-200 rounded-md hover:bg-teal-100 hover:border-teal-300 transition-colors"
+        className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-brand-line bg-white px-3 py-1.5 text-xs font-medium text-brand-navy shadow-sm transition-all hover:border-brand-accent hover:text-brand-accent hover:shadow"
       >
         <InfoIcon size={14} strokeWidth={2} />
         Learn more
