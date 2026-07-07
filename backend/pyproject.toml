@@ -1,3 +1,6 @@
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+markers = [
+    "network: hits live external APIs (RxNav, MedlinePlus); skip with -m 'not network'",
+]

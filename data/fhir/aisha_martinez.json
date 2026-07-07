@@ -44,15 +44,15 @@
     {
       "resource": {
         "resourceType": "MedicationRequest",
-        "id": "med-prenatal-vitamins",
+        "id": "med-folic-acid",
         "status": "active",
         "intent": "order",
         "subject": {"reference": "Patient/synthea-aisha-martinez"},
         "medicationCodeableConcept": {
           "coding": [{
             "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-            "code": "433795",
-            "display": "Prenatal Vitamins Oral Tablet"
+            "code": "310410",
+            "display": "Folic Acid 1 MG Oral Tablet"
           }]
         },
         "dosageInstruction": [{"text": "Take 1 tablet by mouth once daily"}]

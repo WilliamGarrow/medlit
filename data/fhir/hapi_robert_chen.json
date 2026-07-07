@@ -335,7 +335,7 @@
           "coding": [
             {
               "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "code": "198053",
+              "code": "198051",
               "display": "Omeprazole 20 MG Delayed Release Oral Capsule"
             }
           ],
@@ -417,7 +417,7 @@
           "coding": [
             {
               "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-              "code": "198369",
+              "code": "863664",
               "display": "Oxybutynin Chloride 5 MG Oral Tablet"
             }
           ],
