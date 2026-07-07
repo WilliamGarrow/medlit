@@ -64,7 +64,7 @@ export default function ObservationList({
         return (
           <div
             key={i}
-            className={`border border-gray-200 border-l-4 ${borderColor} rounded-lg p-4 bg-white shadow-sm`}
+            className={`border border-brand-line border-l-4 ${borderColor} rounded-xl p-4 bg-white shadow-sm transition-shadow hover:shadow-md`}
           >
             <div className="flex items-start justify-between gap-4">
               <div>

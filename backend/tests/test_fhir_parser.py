@@ -69,8 +69,8 @@ def test_medication_request_parsed(parser):
     assert "259255" in med_codes  # Atorvastatin
 
 
-def test_robert_chen_complex_patient(parser):
-    detail = parser.get_patient("robert_chen")
+def test_kenneth_liu_complex_patient(parser):
+    detail = parser.get_patient("kenneth_liu")
     assert detail is not None
     assert len(detail.conditions) == 3
     assert len(detail.medications) == 3

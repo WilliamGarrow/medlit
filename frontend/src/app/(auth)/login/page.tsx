@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { trackActivity } from "@/lib/tracking";
 
@@ -204,14 +205,20 @@ export default function LoginPage() {
                 <a href="/about" className="text-brand-accent hover:underline">
                   How it works
                 </a>
-                <span className="text-gray-300 mx-2">·</span>
-                <a
-                  href="https://williamgarrow.com"
-                  className="text-brand-accent hover:underline"
-                >
-                  Built by William Garrow
-                </a>
               </p>
+              <a
+                href="https://williamgarrow.com"
+                className="flex items-center justify-center gap-2 pt-1 opacity-80 hover:opacity-100 transition-opacity"
+              >
+                <span className="text-xs text-gray-400">Built by</span>
+                <Image
+                  src="/wgarrow-logo.png"
+                  alt="william garrow"
+                  width={112}
+                  height={56}
+                  className="h-7 w-auto"
+                />
+              </a>
             </div>
           </div>
         </div>

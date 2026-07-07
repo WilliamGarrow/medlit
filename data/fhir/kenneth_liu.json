@@ -5,8 +5,8 @@
     {
       "resource": {
         "resourceType": "Patient",
-        "id": "synthea-robert-chen",
-        "name": [{"given": ["Robert"], "family": "Chen"}],
+        "id": "synthea-kenneth-liu",
+        "name": [{"given": ["Kenneth"], "family": "Liu"}],
         "gender": "male",
         "birthDate": "1968-01-28"
       }
@@ -15,7 +15,7 @@
       "resource": {
         "resourceType": "Condition",
         "id": "condition-diabetes",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://snomed.info/sct",
@@ -30,7 +30,7 @@
       "resource": {
         "resourceType": "Condition",
         "id": "condition-cad",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://snomed.info/sct",
@@ -45,7 +45,7 @@
       "resource": {
         "resourceType": "Condition",
         "id": "condition-obesity",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://snomed.info/sct",
@@ -62,7 +62,7 @@
         "id": "med-metformin",
         "status": "active",
         "intent": "order",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "medicationCodeableConcept": {
           "coding": [{
             "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
@@ -79,7 +79,7 @@
         "id": "med-aspirin",
         "status": "active",
         "intent": "order",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "medicationCodeableConcept": {
           "coding": [{
             "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
@@ -96,7 +96,7 @@
         "id": "med-atorvastatin",
         "status": "active",
         "intent": "order",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "medicationCodeableConcept": {
           "coding": [{
             "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
@@ -112,7 +112,7 @@
         "resourceType": "Observation",
         "id": "obs-a1c",
         "status": "final",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://loinc.org",
@@ -134,7 +134,7 @@
         "resourceType": "Observation",
         "id": "obs-cholesterol",
         "status": "final",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://loinc.org",
@@ -156,7 +156,7 @@
         "resourceType": "Observation",
         "id": "obs-glucose",
         "status": "final",
-        "subject": {"reference": "Patient/synthea-robert-chen"},
+        "subject": {"reference": "Patient/synthea-kenneth-liu"},
         "code": {
           "coding": [{
             "system": "http://loinc.org",
