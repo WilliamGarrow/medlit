@@ -17,6 +17,7 @@ from app.models.schemas import (
 )
 from app.services.fhir_parser import FHIRParser
 from app.services.llm_provider import get_llm_provider
+from app.services.summary_parser import parse_summary_sections
 from app.services.medlineplus_client import MedlinePlusClient
 from app.services.prompt_builder import (
     build_condition_prompt,
@@ -247,50 +248,12 @@ async def patient_summary(
         logger.exception("LLM generation failed for patient summary")
         raise HTTPException(status_code=503, detail="LLM service is unavailable")
 
-    # Parse structured sections from LLM JSON response
-    SECTION_ICONS = {
-        "Your Conditions": "conditions",
-        "Your Medications": "medications",
-        "Important Interactions": "interactions",
-        "Lab Results": "labs",
-        "Key Takeaways": "takeaways",
-    }
-
+    # Parse structured sections from LLM JSON response (see issue #1)
+    parsed_sections, explanation_text = parse_summary_sections(raw_response)
     sections: list[SummarySection] | None = None
-    explanation_text = raw_response
-    try:
-        # Strip any markdown code fences the LLM might add
-        cleaned = raw_response.strip()
-        if cleaned.startswith("```"):
-            cleaned = cleaned.split("\n", 1)[1]
-            cleaned = cleaned.rsplit("```", 1)[0]
-            cleaned = cleaned.strip()
-        # Extract JSON array if surrounded by extra text
-        start = cleaned.find("[")
-        end = cleaned.rfind("]")
-        if start != -1 and end != -1 and end > start:
-            cleaned = cleaned[start : end + 1]
-        try:
-            parsed = json.loads(cleaned)
-        except json.JSONDecodeError:
-            # LLM sometimes produces slightly malformed JSON — try to repair
-            # common issues: trailing commas, unescaped newlines in strings
-            import re
-
-            repaired = re.sub(r",\s*]", "]", cleaned)  # trailing comma
-            repaired = re.sub(r",\s*}", "}", repaired)
-            parsed = json.loads(repaired)
-        if isinstance(parsed, list):
-            sections = []
-            body_parts = []
-            for item in parsed:
-                heading = item.get("heading", "")
-                body = item.get("body", "")
-                icon = SECTION_ICONS.get(heading, "")
-                sections.append(SummarySection(heading=heading, icon=icon, body=body))
-                body_parts.append(body)
-            explanation_text = "\n\n".join(body_parts)
-    except (json.JSONDecodeError, AttributeError, TypeError):
+    if parsed_sections is not None:
+        sections = [SummarySection(**s) for s in parsed_sections]
+    else:
         logger.warning("Failed to parse structured summary, using raw text")
 
     # Score readability on the combined plain text
