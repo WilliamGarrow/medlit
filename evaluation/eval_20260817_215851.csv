@@ -1,0 +1,10 @@
+patient_id,patient_name,prompt_type,subject,reading_level,provider,model,flesch_kincaid,gunning_fog,latency_s,char_count
+maria_garcia,Maria Garcia,summary,Health Summary,simple,Groq GPT-OSS 20B,openai/gpt-oss-20b,5.1,7.4,1.08,1171
+maria_garcia,Maria Garcia,summary,Health Summary,standard,Groq GPT-OSS 20B,openai/gpt-oss-20b,7.6,9.5,2.05,1641
+maria_garcia,Maria Garcia,summary,Health Summary,detailed,Groq GPT-OSS 20B,openai/gpt-oss-20b,12.2,15.3,1.82,2342
+david_thompson,David Thompson,summary,Health Summary,simple,Groq GPT-OSS 20B,openai/gpt-oss-20b,5.4,7.6,1.82,1735
+david_thompson,David Thompson,summary,Health Summary,standard,Groq GPT-OSS 20B,openai/gpt-oss-20b,7.3,9.6,7.58,2488
+david_thompson,David Thompson,summary,Health Summary,detailed,Groq GPT-OSS 20B,openai/gpt-oss-20b,10.0,12.1,22.2,2412
+sarah_johnson,Sarah Johnson,summary,Health Summary,simple,Groq GPT-OSS 20B,openai/gpt-oss-20b,4.8,6.7,22.45,1551
+sarah_johnson,Sarah Johnson,summary,Health Summary,standard,Groq GPT-OSS 20B,openai/gpt-oss-20b,8.7,11.0,16.94,1593
+sarah_johnson,Sarah Johnson,summary,Health Summary,detailed,Groq GPT-OSS 20B,openai/gpt-oss-20b,15.7,19.0,16.64,2319

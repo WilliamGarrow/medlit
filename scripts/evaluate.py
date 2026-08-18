@@ -7,10 +7,10 @@ providers, scores readability, and writes a comparison report.
 Usage:
     # From medlit/backend directory with venv activated:
     cd backend && source .venv/bin/activate
-    python ../scripts/evaluate.py --providers groq-llama8b,groq-llama70b
+    python ../scripts/evaluate.py --providers groq-gpt-oss-20b
 
     # Include Claude (requires ANTHROPIC_API_KEY env var):
-    ANTHROPIC_API_KEY=sk-... python ../scripts/evaluate.py --providers groq-llama8b,claude-haiku
+    ANTHROPIC_API_KEY=sk-... python ../scripts/evaluate.py --providers groq-gpt-oss-20b,claude-haiku
 
     # Specific patients and levels:
     python ../scripts/evaluate.py --patients maria_garcia,david_thompson --levels simple,detailed
@@ -42,6 +42,7 @@ from app.services.prompt_builder import (
     build_summary_prompt,
 )
 from app.services.readability import score_readability
+from app.services.summary_parser import parse_summary_sections
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("evaluate")
@@ -62,6 +63,14 @@ class ProviderConfig:
 
 
 PROVIDER_REGISTRY: dict[str, ProviderConfig] = {
+    "groq-gpt-oss-20b": ProviderConfig(
+        name="Groq GPT-OSS 20B",
+        api_url="https://api.groq.com/openai/v1/chat/completions",
+        model="openai/gpt-oss-20b",
+        api_key_env="GROQ_API_KEY",
+    ),
+    # Decommissioned by Groq (llama-3.1-8b-instant on 2026-08-16); kept for the
+    # provenance of the April 2026 eval runs in evaluation/. Calls will fail.
     "groq-llama8b": ProviderConfig(
         name="Groq Llama 3.1 8B",
         api_url="https://api.groq.com/openai/v1/chat/completions",
@@ -211,7 +220,12 @@ async def evaluate_patient_summary(
         for prov in providers:
             print(f"    {prov.name} @ {level}...", end=" ", flush=True)
             text, latency = await call_provider(prov, prompt)
-            scores = score_readability(text) if not text.startswith("[") else {"flesch_kincaid_grade": 0, "gunning_fog": 0}
+            if text.startswith("[SKIPPED") or text.startswith("[ERROR"):
+                scores = {"flesch_kincaid_grade": 0, "gunning_fog": 0}
+            else:
+                # Score the joined section bodies, same as the app does
+                _, explanation_text = parse_summary_sections(text)
+                scores = score_readability(explanation_text)
             print(f"FK={scores['flesch_kincaid_grade']:.1f} ({latency:.1f}s)")
 
             results.append(EvalResult(
@@ -329,7 +343,7 @@ def main():
     ap = argparse.ArgumentParser(description="Evaluate LLM outputs across providers")
     ap.add_argument(
         "--providers",
-        default="groq-llama8b",
+        default="groq-gpt-oss-20b",
         help="Comma-separated provider keys: " + ", ".join(PROVIDER_REGISTRY.keys()),
     )
     ap.add_argument(

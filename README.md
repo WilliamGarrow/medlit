@@ -34,7 +34,7 @@ Abnormal-versus-normal status is computed deterministically against LOINC refere
 During a pre-final review, an MD panelist noticed a medication card citing a MedlinePlus topic for ticagrelor (a blood thinner) under a tiotropium (COPD inhaler) label. The pipeline was correct; the RxCUI in the Synthea-generated record was wrong. The fix became `scripts/validate_fhir_data.py`: for every coded value in every bundle, call the authoritative reference and flag any display mismatch. It caught two more wrong codes (a morphine RxCUI that maps to remifentanil, an oxybutynin RxCUI that maps to torsemide) plus several deprecated codes. It now runs as a network-marked pytest guard. If you join coded clinical data to external knowledge, validate code/display consistency at ingest. Do not trust synthetic data to be internally coherent.
 
 **4. The reading-level floor effect.**
-Output is post-scored with Flesch-Kincaid and Gunning Fog, so the UI shows the realized reading level instead of trusting the prompt. Across evaluation runs (three patients, three levels), FK grade rose monotonically with the requested level, 7.7 (Simple) to 8.1 (Standard) to 9.4 (Detailed), but even at Simple the output floors near grade 7.7 despite a 5th-6th grade target. This independently replicates Will et al. (2025, JMIR), who found LLM-rewritten patient materials settle near grade 7.6 under a fifth-grade instruction. Lifting that floor is an open research question this codebase is instrumented to explore.
+Output is post-scored with Flesch-Kincaid and Gunning Fog, so the UI shows the realized reading level instead of trusting the prompt. Across evaluation runs (three patients, three levels), FK grade rose monotonically with the requested level, 7.7 (Simple) to 8.1 (Standard) to 9.4 (Detailed), but even at Simple the output floors near grade 7.7 despite a 5th-6th grade target. This independently replicates Will et al. (2025, JMIR), who found LLM-rewritten patient materials settle near grade 7.6 under a fifth-grade instruction. Update, August 2026: after Groq decommissioned llama-3.1-8b-instant, the default model moved to GPT-OSS 20B and the same evaluation was re-run: FK 5.1 / 7.9 / 12.6, every level inside its target band, no floor. The floor tracks the model, not the pipeline. The open question is now which model families exhibit it and why, and this codebase remains instrumented to explore exactly that.
 
 ## Architecture
 
@@ -102,15 +102,15 @@ python ../scripts/validate_fhir_data.py                # standalone report
 
 ## Evaluation
 
-`scripts/evaluate.py` generates summaries across patients, reading levels, and LLM providers, and scores each output. Results land in `evaluation/`. Current headline numbers (Llama-3.1-8B, 9 generations):
+`scripts/evaluate.py` generates summaries across patients, reading levels, and LLM providers, and scores each output. Results land in `evaluation/`. Current headline numbers (GPT-OSS 20B, 9 generations, August 2026):
 
 | Requested level | Target grade | Realized FK grade (avg) |
 |-----------------|--------------|-------------------------|
-| Simple | 5th-6th | 7.7 |
-| Standard | 7th-8th | 8.1 |
-| Detailed | 10th-12th | 9.4 |
+| Simple | 5th-6th | 5.1 |
+| Standard | 7th-8th | 7.9 |
+| Detailed | 10th-12th | 12.6 |
 
-Monotonic, in the right direction, and floored well above the Simple target. See "reading-level floor effect" above.
+Every level lands inside its target band. The April 2026 run on Llama-3.1-8B (decommissioned by Groq on August 16, 2026) scored 7.7 / 8.1 / 9.4: monotonic, in the right direction, and floored well above the Simple target. See "reading-level floor effect" above for what the model swap did to that finding. Scoring note: the Llama runs were scored on raw prose responses; GPT-OSS returns structured JSON sections, scored on the joined section bodies, which is the same text the app displays and scores.
 
 ## Project status and roadmap
 
